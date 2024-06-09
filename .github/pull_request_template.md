@@ -1,4 +1,4 @@
-closes %{issues}
+closes [KAN-](URL)
 ### 작업 분류
 
 - [ ] 버그 수정
