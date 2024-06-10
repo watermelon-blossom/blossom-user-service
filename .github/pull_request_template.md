@@ -1,4 +1,4 @@
-closes [KAN-](URL)
+closes [KAN-00](https://uicheon.atlassian.net/browse/KAN-00)
 ### 작업 분류
 
 - [ ] 버그 수정
