@@ -12,6 +12,7 @@ public class Tendency {
     @Column(name = "tendency_id")
     private Long id;
 
+    @Column(nullable = false)
     private String name;
     private String description;
 }
