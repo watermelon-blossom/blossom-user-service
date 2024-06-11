@@ -2,8 +2,7 @@ package com.watermelon.dateapp.domain;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
+import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -12,11 +11,11 @@ public class UserTendency {
     @Id @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "tendency_id")
     private Tendency tendency;
 }

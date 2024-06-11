@@ -15,7 +15,7 @@ public class User {
     Long id;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "name"))
+    @AttributeOverride(name = "value", column = @Column(name = "name", nullable = false))
     private UserName userName;
 
     @OneToMany(mappedBy = "user")
