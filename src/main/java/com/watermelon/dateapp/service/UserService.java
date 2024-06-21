@@ -1,12 +1,14 @@
 package com.watermelon.dateapp.service;
 
 import com.watermelon.dateapp.controller.CreateUserRequest;
-import com.watermelon.dateapp.controller.CreateUserResponse;
+import com.watermelon.dateapp.controller.UserResponse;
 import com.watermelon.dateapp.domain.User;
 import com.watermelon.dateapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,12 +17,13 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public CreateUserResponse saveUser(CreateUserRequest userRequest) {
+    public UserResponse saveUser(CreateUserRequest userRequest) {
         User savedUser = userRepository.save(new User(userRequest.userName()));
-        return new CreateUserResponse(savedUser);
+        return new UserResponse(savedUser);
     }
 
-    public User findById(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public Optional<UserResponse> findById(Long id) {
+        return userRepository.findById(id)
+                .map(user -> new UserResponse(user));
     }
 }

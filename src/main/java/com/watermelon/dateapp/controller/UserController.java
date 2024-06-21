@@ -15,9 +15,9 @@ import java.net.URI;
 public class UserController {
     private final UserService userService;
     @PostMapping("/user")
-    public ResponseEntity<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest request, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request, UriComponentsBuilder uriBuilder) {
         try {
-            CreateUserResponse savedUserDto = userService.saveUser(request);
+            UserResponse savedUserDto = userService.saveUser(request);
             URI location = uriBuilder.path("/user/{id}")
                     .buildAndExpand(savedUserDto.id())
                     .toUri();
@@ -28,8 +28,10 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
-        User byId = userService.findById(id);
-        return ResponseEntity.ok().body(byId);
+    public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
+        return userService.findById(id)
+                .map(userDto -> ResponseEntity.ok().body(userDto))
+                .orElse(ResponseEntity.notFound().build());
     }
+
 }
