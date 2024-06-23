@@ -38,4 +38,14 @@ public class UserService {
                     return new UserResponse(user);
                 });
     }
+
+    @Transactional
+    public void deleteUser(Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+        } else{
+            throw new IllegalArgumentException("User not found");
+        }
+
+    }
 }
