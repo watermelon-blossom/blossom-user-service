@@ -1,4 +1,4 @@
-package com.watermelon.dateapp.domain;
+package com.watermelon.dateapp.domain.user;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
