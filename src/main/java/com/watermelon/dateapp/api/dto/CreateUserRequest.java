@@ -1,4 +1,4 @@
-package com.watermelon.dateapp.controller;
+package com.watermelon.dateapp.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
