@@ -34,4 +34,13 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/user/{id}")
+    public ResponseEntity<UserResponse> updateUser(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateUserRequest request) {
+        return userService.updateUser(id, request)
+                .map(userDto -> ResponseEntity.ok().body(userDto))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 }

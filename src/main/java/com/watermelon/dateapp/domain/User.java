@@ -35,4 +35,8 @@ public class User {
     public String getUserName() {
         return this.userName.getValue();
     }
+
+    public void updateUserName(String userName) {
+        this.userName = new UserName(userName);
+    }
 }
