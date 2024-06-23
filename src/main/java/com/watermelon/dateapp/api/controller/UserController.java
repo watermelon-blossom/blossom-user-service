@@ -29,15 +29,11 @@ public class UserController {
 	@PostMapping("/users")
 	public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request,
 		UriComponentsBuilder uriBuilder) {
-		try {
-			UserResponse savedUserDto = userService.saveUser(request);
-			URI location = uriBuilder.path("/user/{id}")
-				.buildAndExpand(savedUserDto.id())
-				.toUri();
-			return ResponseEntity.created(location).body(savedUserDto);
-		} catch (IllegalArgumentException exception) {
-			return ResponseEntity.badRequest().build();
-		}
+		UserResponse savedUserDto = userService.saveUser(request);
+		URI location = uriBuilder.path("/user/{id}")
+			.buildAndExpand(savedUserDto.id())
+			.toUri();
+		return ResponseEntity.created(location).body(savedUserDto);
 	}
 
 	@GetMapping("/users/{id}")
