@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 	private final UserService userService;
 
-	@PostMapping("/user")
+	@PostMapping("/users")
 	public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request,
 		UriComponentsBuilder uriBuilder) {
 		try {
@@ -40,7 +40,7 @@ public class UserController {
 		}
 	}
 
-	@GetMapping("/user/{id}")
+	@GetMapping("/users/{id}")
 	public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
 		return userService.findById(id)
 			.map(userDto -> ResponseEntity.ok().body(userDto))
