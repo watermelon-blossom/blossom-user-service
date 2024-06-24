@@ -1,0 +1,30 @@
+name: ArgoCD Update Manifest
+
+on:
+  workflow_run:
+    workflows: ["build-and-push"]
+    types:
+      - completed
+
+jobs:
+  deploy-to-k8s:
+    name: Push Manifest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the latest commit hash
+        run: echo "HASH=$(git log -1 --pretty=%h)" >> $GITHUB_ENV
+
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: Change manifest
+        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon:[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-user-service:${{ env.HASH }}|" k8s/deploy.yaml
+
+      - name: git push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config credential.helper store
+          git add k8s/main.yaml
+          git commit -m ":tada: Update: Image [${{ env.HASH }}]"
+          git push

@@ -32,7 +32,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/watermelon:latest,${{ secrets.DOCKER_USERNAME }}/watermelon:${{ env.HASH }}
+        tags: ${{ secrets.DOCKER_USERNAME }}/watermelon-user-service:latest,${{ secrets.DOCKER_USERNAME }}/watermelon-user-service:${{ env.HASH }}
         platforms: |
           linux/amd64
           linux/arm64

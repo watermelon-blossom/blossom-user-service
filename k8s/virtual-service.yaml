@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: user-virtualservice
+  namespace: backend
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - istio-system/default-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+#      rewrite:
+#        uri: /
+      route:
+        - destination:
+            port:
+              number: 8080
+            host: user-service-head.backend.svc.cluster.local
