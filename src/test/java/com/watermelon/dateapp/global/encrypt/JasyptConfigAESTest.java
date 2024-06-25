@@ -8,9 +8,9 @@ class JasyptConfigAESTest {
 
 	@Test
 	void stringEncryptor() {
-		String url = "jdbc:postgresql://database.water-melon.p-e.kr:55432/blossom?currentSchema=user-service&rewriteBatchedStatements=true";
-		String username = "user-service";
-		String password = "user-service@develop";
+		String url = "";
+		String username = "";
+		String password = "";
 
 		System.out.println(jasyptEncoding(url));
 		System.out.println(jasyptEncoding(username));
