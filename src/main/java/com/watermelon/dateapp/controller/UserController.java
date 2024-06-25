@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<UserResponse> deleteUser(
+    public ResponseEntity<ApiResponse<UserResponse>> deleteUser(
             @PathVariable
             @NotNull(message = "ID는 nul일 수 없습니다.")
             @Min(value = 1, message = "ID는 1 이상의 숫자여야 합니다.")
@@ -67,9 +67,9 @@ public class UserController {
     ) {
         try {
             userService.deleteUser(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(ApiResponse.success(null));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null));
         }
 
     }
