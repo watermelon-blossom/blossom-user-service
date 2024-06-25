@@ -1,6 +1,5 @@
 package com.watermelon.dateapp.global.support;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.watermelon.dateapp.global.error.ErrorMessage;
 import com.watermelon.dateapp.global.error.ErrorType;
 

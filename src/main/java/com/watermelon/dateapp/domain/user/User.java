@@ -6,7 +6,6 @@ import static lombok.AccessLevel.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.watermelon.dateapp.api.dto.CreateUserRequest;
 import com.watermelon.dateapp.global.common.BaseEntity;
 
 import jakarta.persistence.AttributeOverride;
@@ -52,5 +51,9 @@ public class User extends BaseEntity {
 		User user = new User();
 		user.userName = new UserName(username);
 		return user;
+	}
+
+	public void updateUserName(String userName) {
+		this.userName = new UserName(userName);
 	}
 }
