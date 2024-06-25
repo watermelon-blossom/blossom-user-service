@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public ResponseEntity<UserResponse> updateUser(
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(
             @PathVariable
             @NotNull(message = "ID는 nul일 수 없습니다.")
             @Min(value = 1, message = "ID는 1 이상의 숫자여야 합니다.")
@@ -54,8 +54,8 @@ public class UserController {
             UpdateUserRequest request
     ) {
         return userService.updateUser(id, request)
-                .map(userDto -> ResponseEntity.ok().body(userDto))
-                .orElse(ResponseEntity.notFound().build());
+                .map(userDto -> ResponseEntity.ok().body(ApiResponse.success(userDto)))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null)));
     }
 
     @DeleteMapping("/user/{id}")
