@@ -1,12 +1,15 @@
 package com.watermelon.dateapp.controller;
 
 import com.watermelon.dateapp.domain.User;
+import com.watermelon.dateapp.global.error.ErrorType;
+import com.watermelon.dateapp.global.support.ApiResponse;
 import com.watermelon.dateapp.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,15 +35,15 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<UserResponse> getUser(
+    public ResponseEntity<ApiResponse<UserResponse>> getUser(
             @PathVariable
             @NotNull(message = "ID는 nul일 수 없습니다.")
             @Min(value = 1, message = "ID는 1 이상의 숫자여야 합니다.")
             Long id
     ) {
         return userService.findById(id)
-                .map(userDto -> ResponseEntity.ok().body(userDto))
-                .orElse(ResponseEntity.notFound().build());
+                .map(userResponse -> ResponseEntity.ok().body(ApiResponse.success(userResponse)))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null)));
     }
 
     @PutMapping("/user/{id}")
