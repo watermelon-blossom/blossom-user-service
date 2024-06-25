@@ -1,6 +1,5 @@
 package com.watermelon.dateapp.controller;
 
-import com.watermelon.dateapp.domain.User;
 import com.watermelon.dateapp.global.error.ErrorType;
 import com.watermelon.dateapp.global.support.ApiResponse;
 import com.watermelon.dateapp.service.UserService;
@@ -8,7 +7,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,15 +20,15 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/user")
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(@Valid @RequestBody CreateUserRequest request, UriComponentsBuilder uriBuilder) {
         try {
             UserResponse savedUserDto = userService.saveUser(request);
             URI location = uriBuilder.path("/user/{id}")
                     .buildAndExpand(savedUserDto.id())
                     .toUri();
-            return ResponseEntity.created(location).body(savedUserDto);
+            return ResponseEntity.created(location).body(ApiResponse.success(savedUserDto));
         } catch (IllegalArgumentException exception) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(ApiResponse.error(ErrorType.BAD_REQUEST, exception.getMessage(), null));
         }
     }
 
