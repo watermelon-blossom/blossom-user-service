@@ -3,6 +3,8 @@ package com.watermelon.dateapp.service;
 import com.watermelon.dateapp.api.dto.UpdateUserRequest;
 import com.watermelon.dateapp.domain.user.Sex;
 import com.watermelon.dateapp.domain.user.User;
+import com.watermelon.dateapp.global.error.ApplicationException;
+import com.watermelon.dateapp.global.error.ErrorType;
 import com.watermelon.dateapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,13 +36,14 @@ public class UserService {
 		return new UserResponse(savedUser);
 	}
 
-    public Optional<UserResponse> findById(Long id) {
+    public UserResponse  findById(Long id) {
         return userRepository.findById(id)
-                .map(user -> new UserResponse(user));
+                .map(user -> new UserResponse(user))
+                .orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
     }
 
     @Transactional
-    public Optional<UserResponse> updateUser(Long id, UpdateUserRequest userRequest) {
+    public UserResponse  updateUser(Long id, UpdateUserRequest userRequest) {
         return userRepository.findById(id)
                 .map(user -> {
                     user.updateUser(
@@ -53,7 +56,8 @@ public class UserService {
                     );
                     user = userRepository.save(user);
                     return new UserResponse(user);
-                });
+                })
+                .orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
     }
 
     @Transactional
@@ -61,7 +65,7 @@ public class UserService {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
         } else{
-            throw new IllegalArgumentException("User not found");
+            throw new ApplicationException(ErrorType.USER_NOT_FOUND);
         }
 
     }

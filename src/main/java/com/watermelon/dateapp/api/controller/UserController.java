@@ -24,12 +24,8 @@ public class UserController {
 
 	@PostMapping("/users")
 	public ApiResponse<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
-		try {
-			UserResponse savedUserDto = userService.saveUser(request);
-			return ApiResponse.success(savedUserDto);
-		} catch (IllegalArgumentException exception) {
-			return ApiResponse.error(ErrorType.BAD_REQUEST, exception.getMessage(), null);
-		}
+		UserResponse savedUserDto = userService.saveUser(request);
+		return ApiResponse.success(savedUserDto);
 	}
 
 	@GetMapping("/users/{id}")
@@ -39,9 +35,8 @@ public class UserController {
 			@Min(value = 1, message = "ID는 1 이상의 숫자여야 합니다.")
 			Long id
 	) {
-		return userService.findById(id)
-				.map(userResponse -> ApiResponse.success(userResponse))
-				.orElse(ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null));
+		UserResponse findUser = userService.findById(id);
+		return ApiResponse.success(findUser);
 	}
 
 	@PutMapping("/users/{id}")
@@ -53,9 +48,8 @@ public class UserController {
 			@Valid @RequestBody
 			UpdateUserRequest request
 	) {
-		return userService.updateUser(id, request)
-				.map(userDto -> ApiResponse.success(userDto))
-				.orElse(ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null));
+		UserResponse userResponse = userService.updateUser(id, request);
+		return ApiResponse.success(userResponse);
 	}
 
 	@DeleteMapping("/users/{id}")
@@ -65,12 +59,8 @@ public class UserController {
 			@Min(value = 1, message = "ID는 1 이상의 숫자여야 합니다.")
 			Long id
 	) {
-		try {
-			userService.deleteUser(id);
-			return ApiResponse.success(null);
-		} catch (IllegalArgumentException e) {
-			return ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null);
-		}
+		userService.deleteUser(id);
+		return ApiResponse.success(null);
 	}
 
 	@GetMapping("/users")
