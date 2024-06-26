@@ -1,17 +1,12 @@
 package com.watermelon.dateapp.api.controller;
 
-import java.net.URI;
-
 import com.watermelon.dateapp.api.dto.UpdateUserRequest;
 import com.watermelon.dateapp.global.error.ErrorType;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.watermelon.dateapp.api.dto.CreateUserRequest;
 import com.watermelon.dateapp.api.dto.SearchUserRequest;
@@ -28,32 +23,29 @@ public class UserController {
 	private final UserService userService;
 
 	@PostMapping("/users")
-	public ResponseEntity<ApiResponse<UserResponse>> createUser(@Valid @RequestBody CreateUserRequest request, UriComponentsBuilder uriBuilder) {
+	public ApiResponse<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
 		try {
 			UserResponse savedUserDto = userService.saveUser(request);
-			URI location = uriBuilder.path("/user/{id}")
-					.buildAndExpand(savedUserDto.id())
-					.toUri();
-			return ResponseEntity.created(location).body(ApiResponse.success(savedUserDto));
+			return ApiResponse.success(savedUserDto);
 		} catch (IllegalArgumentException exception) {
-			return ResponseEntity.badRequest().body(ApiResponse.error(ErrorType.BAD_REQUEST, exception.getMessage(), null));
+			return ApiResponse.error(ErrorType.BAD_REQUEST, exception.getMessage(), null);
 		}
 	}
 
 	@GetMapping("/users/{id}")
-	public ResponseEntity<ApiResponse<UserResponse>> getUser(
+	public ApiResponse<UserResponse> getUser(
 			@PathVariable
 			@NotNull(message = "ID는 nul일 수 없습니다.")
 			@Min(value = 1, message = "ID는 1 이상의 숫자여야 합니다.")
 			Long id
 	) {
 		return userService.findById(id)
-				.map(userResponse -> ResponseEntity.ok().body(ApiResponse.success(userResponse)))
-				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null)));
+				.map(userResponse -> ApiResponse.success(userResponse))
+				.orElse(ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null));
 	}
 
 	@PutMapping("/users/{id}")
-	public ResponseEntity<ApiResponse<UserResponse>> updateUser(
+	public ApiResponse<UserResponse> updateUser(
 			@PathVariable
 			@NotNull(message = "ID는 nul일 수 없습니다.")
 			@Min(value = 1, message = "ID는 1 이상의 숫자여야 합니다.")
@@ -62,12 +54,12 @@ public class UserController {
 			UpdateUserRequest request
 	) {
 		return userService.updateUser(id, request)
-				.map(userDto -> ResponseEntity.ok().body(ApiResponse.success(userDto)))
-				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null)));
+				.map(userDto -> ApiResponse.success(userDto))
+				.orElse(ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null));
 	}
 
 	@DeleteMapping("/users/{id}")
-	public ResponseEntity<ApiResponse<UserResponse>> deleteUser(
+	public ApiResponse<UserResponse> deleteUser(
 			@PathVariable
 			@NotNull(message = "ID는 nul일 수 없습니다.")
 			@Min(value = 1, message = "ID는 1 이상의 숫자여야 합니다.")
@@ -75,11 +67,10 @@ public class UserController {
 	) {
 		try {
 			userService.deleteUser(id);
-			return ResponseEntity.ok().body(ApiResponse.success(null));
+			return ApiResponse.success(null);
 		} catch (IllegalArgumentException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null));
+			return ApiResponse.error(ErrorType.USER_NOT_FOUND, "해당 ID의 User는 존재하지 않습니다.", null);
 		}
-
 	}
 
 	@GetMapping("/users")
