@@ -1,6 +1,7 @@
 package com.watermelon.dateapp.service;
 
 import com.watermelon.dateapp.api.dto.UpdateUserRequest;
+import com.watermelon.dateapp.domain.user.Sex;
 import com.watermelon.dateapp.domain.user.User;
 import com.watermelon.dateapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,14 @@ public class UserService {
 
 	@Transactional
 	public UserResponse saveUser(CreateUserRequest userRequest) {
-		User newUser = User.of(userRequest.userName());
+		User newUser = User.of(
+                userRequest.userName(),
+                Sex.valueOf(userRequest.sex()),
+                userRequest.age(),
+                userRequest.lastLatitude(),
+                userRequest.lastLongitude(),
+                userRequest.location()
+        );
 		User savedUser = userRepository.save(newUser);
 		return new UserResponse(savedUser);
 	}
@@ -35,7 +43,14 @@ public class UserService {
     public Optional<UserResponse> updateUser(Long id, UpdateUserRequest userRequest) {
         return userRepository.findById(id)
                 .map(user -> {
-                    user.updateUserName(userRequest.userName());
+                    user.updateUser(
+                            userRequest.userName(),
+                            Sex.valueOf(userRequest.sex()),
+                            userRequest.age(),
+                            userRequest.lastLatitude(),
+                            userRequest.lastLongitude(),
+                            userRequest.location()
+                    );
                     user = userRepository.save(user);
                     return new UserResponse(user);
                 });
