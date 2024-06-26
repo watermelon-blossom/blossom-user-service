@@ -48,8 +48,6 @@ public class UserService {
                 .map(user -> {
                     user.updateUser(
                             userRequest.userName(),
-                            Sex.valueOf(userRequest.sex()),
-                            userRequest.age(),
                             userRequest.lastLatitude(),
                             userRequest.lastLongitude(),
                             userRequest.location()

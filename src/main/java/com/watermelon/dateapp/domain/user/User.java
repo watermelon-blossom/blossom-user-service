@@ -56,10 +56,8 @@ public class User extends BaseEntity {
 		return userName.getValue();
 	}
 
-	public void updateUser(String userName, Sex sex, Integer age, Double lastLatitude, Double lastLongitude, String location) {
+	public void updateUser(String userName, Double lastLatitude, Double lastLongitude, String location) {
 		this.userName = new UserName(userName);
-		this.sex = sex;
-		this.age = age;
 		this.lastLatitude = lastLatitude;
 		this.lastLongitude = lastLongitude;
 		this.location = location;
