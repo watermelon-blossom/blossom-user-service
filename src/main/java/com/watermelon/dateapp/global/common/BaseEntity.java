@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.Comment;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -21,6 +22,7 @@ public class BaseEntity {
 
 	@Comment("수정 일시")
 	@Column(name = "modifiedDate")
+	@LastModifiedDate
 	protected LocalDateTime modifiedDate;
 
 	@Comment("생성자 아이디")

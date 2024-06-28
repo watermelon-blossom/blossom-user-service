@@ -6,17 +6,9 @@ import static lombok.AccessLevel.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.watermelon.dateapp.api.dto.CreateUserRequest;
 import com.watermelon.dateapp.global.common.BaseEntity;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +29,7 @@ public class User extends BaseEntity {
 	@Embedded
 	@AttributeOverride(name = "value", column = @Column(name = "name", nullable = false))
 	private UserName userName;
+	@Enumerated(EnumType.STRING)
 	private Sex sex;
 	private Integer age;
 	private Double lastLatitude;
@@ -48,9 +41,25 @@ public class User extends BaseEntity {
 	@OneToMany(mappedBy = "user")
 	private List<UserTendency> userTendency = new ArrayList<>();
 
-	public static User of(String username) {
+	public static User of(String username, Sex sex, Integer age, Double lastLatitude, Double lastLongitude, String location) {
 		User user = new User();
 		user.userName = new UserName(username);
+		user.sex = sex;
+		user.age = age;
+		user.lastLatitude = lastLatitude;
+		user.lastLongitude = lastLongitude;
+		user.location = location;
 		return user;
+	}
+
+	public String getUserName() {
+		return userName.getValue();
+	}
+
+	public void updateUser(String userName, Double lastLatitude, Double lastLongitude, String location) {
+		this.userName = new UserName(userName);
+		this.lastLatitude = lastLatitude;
+		this.lastLongitude = lastLongitude;
+		this.location = location;
 	}
 }
