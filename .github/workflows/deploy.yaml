@@ -28,7 +28,7 @@ jobs:
         run: echo "HASH=$(git log -1 --pretty=%h)" >> $GITHUB_ENV
 
       - name: Change manifest
-        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon-user-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-user-sevice:${{ env.HASH }}|" k8s/deploy.yaml
+        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon-user-service:\s*[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-user-sevice:${{ env.HASH }}|g" k8s/deploy.yaml
 
       - name: git push
         run: |
