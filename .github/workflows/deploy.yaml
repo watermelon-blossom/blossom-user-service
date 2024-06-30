@@ -14,17 +14,14 @@ jobs:
       - name: Get the latest commit hash
         run: echo "HASH=$(git log -1 --pretty=%h)" >> $GITHUB_ENV
 
-      - name: checkout repository
-        uses: actions/checkout@v4
-
-      - name: Change manifest
-        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon-user-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-user-sevice:${{ env.HASH }}|" k8s/deploy.yaml
-
-      - name: git push
-        run: |
+      - uses: actions/checkout@v4
+      - run: |
+          sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon-user-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-user-sevice:${{ env.HASH }}|" k8s/deploy.yaml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config credential.helper store
           git add k8s/deploy.yaml
           git commit -m ":tada: Update: Image [${{ env.HASH }}]"
           git push
+
+        
