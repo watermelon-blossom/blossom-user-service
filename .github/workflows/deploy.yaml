@@ -11,9 +11,6 @@ jobs:
     name: Push Manifest
     runs-on: ubuntu-latest
     steps:
-      - name: Get the latest commit hash
-        run: echo "HASH=$(git log -1 --pretty=%h)" >> $GITHUB_ENV
-
 
       - uses: actions/create-github-app-token@v1
         id: app-token
@@ -26,6 +23,9 @@ jobs:
         with:
           fetch-depth: 0 # pulls all history and tags for Lerna to detect which packages changed
           token: ${{ steps.app-token.outputs.token }}
+
+      - name: Get the latest commit hash
+        run: echo "HASH=$(git log -1 --pretty=%h)" >> $GITHUB_ENV
 
       - name: Change manifest
         run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon-user-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-user-sevice:${{ env.HASH }}|" k8s/deploy.yaml
