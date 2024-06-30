@@ -1,0 +1,35 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /user-service
+
+spring:
+  # Postgresql Config
+  datasource:
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      show_sql: true
+      format_sql: true
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+
+modules:
+  endpoints:
+    user-service:
+    recommend-service:
+    relation-service:
+    chat-service:
+

@@ -1,0 +1,42 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /user-service
+
+jasypt:
+  encryptor:
+    bean: jasyptEncryptorAES
+
+spring:
+  # Postgresql Config
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    url: ENC(4V/fjfwWQqb+Egc9l8B3xHkgCcyQ7tpo2n1g/yOG/w7SfleBJBABlfQzbFbEqXaQjxiy7KoMllcZz/N77NNjWd9zrYhRke8cCWGBDYVc+m/3vra4cGG9y966JwvgEVFYwMQ5EsQ+9YwzlElFFCtbndPORfP0eEHMZTnmypsUgEPQH78piQSxIYQ1JgbyYCZa+W2Ow8zbd0QDl85ox40M6Q==)
+    username: ENC(x4RgKYldsib9W5AUWWQWMs7Ow6cD7WBCtyPyCulr+dJ5t8o1jKDUana0qTGmeOCz)
+    password: ENC(WM2KcgqEMXbm0gC42JQA79d6IC9prwpq+l/WFI32RLf9DMxlaMHZiFB+2qdd6wsIaMsJ5zX12UAlPeym4ni4JQ==)
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      show_sql: true
+      format_sql: true
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+
+modules:
+  endpoints:
+    user-service:
+    recommend-service:
+    relation-service:
+    chat-service:
