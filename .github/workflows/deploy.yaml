@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Change manifest
-        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon-user-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-user-service:${{ env.HASH }}|" watermelon-user-service/k8s/deploy.yaml
+        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon-user-service:[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-user-sevice:${{ env.HASH }}|" k8s/deploy.yaml
 
       - name: git push
         run: |
