@@ -2,7 +2,7 @@ name: ArgoCD Update Manifest
 
 on:
   workflow_run:
-    workflows: ["build-and-push"]
+    workflows: ["Docker Image CI"]
     types:
       - completed
 
