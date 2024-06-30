@@ -3,8 +3,12 @@ name: Run test
 on:
   push:
     branches: [ "develop" ]
+    paths-ignore:
+      - 'k8s/**'
   pull_request:
     branches: [ "develop" ]
+    paths-ignore:
+      - 'k8s/**'
 
 jobs:
   build:

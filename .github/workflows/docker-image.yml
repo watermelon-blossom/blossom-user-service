@@ -3,6 +3,8 @@ name: Docker Image CI
 on:
   push:
     branches: [ "develop" ]
+    paths-ignore:
+      - 'k8s/**'
 
 jobs:
   build-and-push:
