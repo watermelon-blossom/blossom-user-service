@@ -24,8 +24,8 @@ spec:
           ports:
             - containerPort: 8080
           envFrom:
-            - configMapRef:
-                name: user-service-config
+          - configMapRef:
+              name: user-service-config
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: tb
