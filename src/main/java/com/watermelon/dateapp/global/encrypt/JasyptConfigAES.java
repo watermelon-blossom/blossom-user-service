@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Profile;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 
-@Configuration
 @Profile("dev")
+@Configuration
 @EnableEncryptableProperties
 public class JasyptConfigAES {
 	@Value("${jasypt.encryptor.password}")
