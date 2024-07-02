@@ -29,6 +29,9 @@ logging:
           descriptor:
             sql: trace
 
+file:
+  upload-dir: ./images
+
 modules:
   endpoints:
     user-service:
