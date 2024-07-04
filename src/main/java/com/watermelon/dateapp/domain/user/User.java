@@ -40,6 +40,8 @@ public class User extends BaseEntity {
 
 	@OneToMany(mappedBy = "user")
 	private List<UserTendency> userTendency = new ArrayList<>();
+	@OneToMany(mappedBy = "user")
+	private List<UserPhoto> userPhoto = new ArrayList<>();
 
 	public static User of(String username, Sex sex, Integer age, Double lastLatitude, Double lastLongitude, String location) {
 		User user = new User();
