@@ -15,11 +15,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/users/photos")
 public class UserPhotoController {
 
     private final UserPhotoService userPhotoService;
 
-    @PostMapping("/user/photos")
+    @PostMapping()
     public ApiResponse<List<String>> storePhoto(
             @RequestParam
             Long userId,
@@ -31,7 +32,7 @@ public class UserPhotoController {
         return ApiResponse.success(pathList);
     }
 
-    @GetMapping("/user/photos/{file}")
+    @GetMapping("/{file}")
     public ResponseEntity<Resource> getPhoto(@PathVariable String file) throws MalformedURLException {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "image/png; image/jpeg");
@@ -39,10 +40,9 @@ public class UserPhotoController {
         return ResponseEntity.ok().headers(headers).body(photo);
     }
 
-    @DeleteMapping("/user/photos/{file}")
+    @DeleteMapping("/{file}")
     public ApiResponse<String> deletePhoto(@PathVariable String file) throws IOException {
         userPhotoService.deletePhoto(file);
-
 
         return ApiResponse.success(null);
     }
