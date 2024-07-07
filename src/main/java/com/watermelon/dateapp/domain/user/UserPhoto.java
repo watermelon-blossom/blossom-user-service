@@ -11,9 +11,16 @@ public class UserPhoto extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Embedded
-    private UploadPhoto PhotoFile;
+    private UploadPhoto photoFile;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public static UserPhoto of(User user, UploadPhoto photoFile) {
+        UserPhoto userPhoto = new UserPhoto();
+        userPhoto.photoFile = photoFile;
+        userPhoto.user = user;
+        return userPhoto;
+    }
 
 }
