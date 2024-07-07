@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Component
 public class UploadDirectoryInitializer implements CommandLineRunner {
@@ -14,9 +16,7 @@ public class UploadDirectoryInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        File dir = new File(uploadDir);
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
+        Path dirPath = Paths.get(uploadDir);
+        Files.createDirectories(dirPath);
     }
 }
