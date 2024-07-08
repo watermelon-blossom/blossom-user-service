@@ -72,7 +72,7 @@ public class UserPhotoService {
         Path path = Paths.get(uploadDir, file);
         if (Files.exists(path)) {
             Files.delete(path);
-            userPhotoRepository.deleteByPhotoFile_StoreFileName(file);
+            userPhotoRepository.deleteByPhotoFileStoreFileName(file);
         } else {
             throw new ApplicationException(ErrorType.FILE_NOT_FOUND);
         }

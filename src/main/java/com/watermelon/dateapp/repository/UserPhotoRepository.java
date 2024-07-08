@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface UserPhotoRepository extends JpaRepository<UserPhoto, Long> {
-    void deleteByPhotoFile_StoreFileName(String storeFileName);
+    void deleteByPhotoFileStoreFileName(String storeFileName);
 }
