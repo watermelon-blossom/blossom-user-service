@@ -64,4 +64,12 @@ public class User extends BaseEntity {
 		this.lastLongitude = lastLongitude;
 		this.location = location;
 	}
+
+	public List<String> getUserPhotoFileNames() {
+		List<String> photos = new ArrayList<>();
+		for (UserPhoto photo : userPhoto) {
+			photos.add(photo.getStoreFileName());
+		}
+		return photos;
+	}
 }

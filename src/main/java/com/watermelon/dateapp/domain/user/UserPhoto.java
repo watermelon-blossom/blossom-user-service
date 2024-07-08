@@ -23,4 +23,8 @@ public class UserPhoto extends BaseEntity {
         return userPhoto;
     }
 
+    public String getStoreFileName() {
+        return photoFile.getStoreFileName();
+    }
+
 }
