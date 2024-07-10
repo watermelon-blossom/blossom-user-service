@@ -39,12 +39,7 @@ public class UserPhotoService {
     @Transactional
     public List<String> storePhotos(Long userId, List<MultipartFile> imageFiles) {
         List<String> fileNames = new ArrayList<>();
-        userRepository.findById(userId)
-                .orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
-
-        if (imageFiles == null || imageFiles.size() == 0) {
-            return null;
-        }
+        if (validateImageFileExist(userId, imageFiles)) return null;
         for (MultipartFile imageFile : imageFiles) {
             if (!imageFile.isEmpty()) {
                 fileNames.add(storePhoto(userId, imageFile));
@@ -52,6 +47,15 @@ public class UserPhotoService {
         }
 
         return fileNames;
+    }
+
+    private boolean validateImageFileExist(Long userId, List<MultipartFile> imageFiles) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
+        if (imageFiles == null || imageFiles.size() == 0) {
+            return true;
+        }
+        return false;
     }
 
     @Transactional
