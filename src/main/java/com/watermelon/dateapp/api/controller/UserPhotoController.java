@@ -26,8 +26,7 @@ public class UserPhotoController {
             Long userId,
             @RequestParam
             List<MultipartFile> imageFiles
-    ) throws IOException {
-
+    ) {
         List<String> pathList = userPhotoService.storePhotos(userId, imageFiles);
         return ApiResponse.success(pathList);
     }
