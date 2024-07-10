@@ -39,7 +39,7 @@ public class UserPhotoService {
     @Transactional
     public List<String> storePhotos(Long userId, List<MultipartFile> imageFiles) {
         List<String> fileNames = new ArrayList<>();
-        if (!validateImageFileExist(userId, imageFiles)) return null;
+        if (!validateImageFileExist(userId, imageFiles)) throw new ApplicationException(ErrorType.IMAGE_FILE_NOT_EXIST);
         for (MultipartFile imageFile : imageFiles) {
             if (!imageFile.isEmpty()) {
                 fileNames.add(storePhoto(userId, imageFile));
