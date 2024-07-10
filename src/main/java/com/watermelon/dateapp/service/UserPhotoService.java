@@ -39,7 +39,9 @@ public class UserPhotoService {
     @Transactional
     public List<String> storePhotos(Long userId, List<MultipartFile> imageFiles) {
         List<String> fileNames = new ArrayList<>();
-        if (userRepository.findById(userId).isEmpty()) throw new ApplicationException(ErrorType.USER_NOT_FOUND);
+        userRepository.findById(userId)
+                .orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
+
         if (imageFiles == null || imageFiles.size() == 0) {
             return null;
         }
