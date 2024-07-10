@@ -20,7 +20,7 @@ public class UserPhotoController {
 
     private final UserPhotoService userPhotoService;
 
-    @PostMapping()
+    @PostMapping
     public ApiResponse<List<String>> storePhoto(
             @RequestParam
             Long userId,
