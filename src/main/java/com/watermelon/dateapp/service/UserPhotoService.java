@@ -37,7 +37,7 @@ public class UserPhotoService {
     private final UserPhotoRepository userPhotoRepository;
 
     @Transactional
-    public List<String> storePhotos(Long userId, List<MultipartFile> imageFiles) throws IOException {
+    public List<String> storePhotos(Long userId, List<MultipartFile> imageFiles) {
         List<String> fileNames = new ArrayList<>();
         if (userRepository.findById(userId).isEmpty()) throw new ApplicationException(ErrorType.USER_NOT_FOUND);
         if (imageFiles == null || imageFiles.size() == 0) {
@@ -53,7 +53,7 @@ public class UserPhotoService {
     }
 
     @Transactional
-    public String storePhoto(Long userId, MultipartFile imageFile) throws IOException {
+    public String storePhoto(Long userId, MultipartFile imageFile) {
         if (imageFile.isEmpty()) { return null; }
 
         User user = userRepository.findById(userId)
@@ -61,7 +61,12 @@ public class UserPhotoService {
 
         String originalFilename = imageFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
-        imageFile.transferTo(new File(getFullPath(storeFileName)));
+        try {
+            imageFile.transferTo(new File(getFullPath(storeFileName)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ApplicationException(ErrorType.INTERNAL_PROCESSING_ERROR);
+        }
 
         userPhotoRepository.save(UserPhoto.of(user, new UploadPhoto(originalFilename, storeFileName)));
         return storeFileName;
