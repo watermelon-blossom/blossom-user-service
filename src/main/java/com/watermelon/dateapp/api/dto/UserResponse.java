@@ -5,6 +5,8 @@ import com.watermelon.dateapp.domain.user.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 public record UserResponse(
 	@NotNull(message = "생성된 유저의 ID는 공백일 수 없습니다.")
 	Long id,
@@ -14,7 +16,8 @@ public record UserResponse(
 	Integer age,
 	Double lastLatitude,
 	Double lastLongitude,
-	String location
+	String location,
+	List<String> photos
 ) {
 	public UserResponse(User user) {
 		this(
@@ -24,7 +27,8 @@ public record UserResponse(
 				user.getAge(),
 				user.getLastLatitude(),
 				user.getLastLongitude(),
-				user.getLocation()
+				user.getLocation(),
+				user.getUserPhotoFileNames()
 		);
 	}
 }

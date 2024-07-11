@@ -12,6 +12,8 @@ public enum ErrorType {
     UNAUTHORIZED(403, "UNAUTHORIZED", "권한이 없는 사용자입니다."),
 
     USER_NOT_FOUND(404, "USER_NOT_FOUND", "사용자를 찾을 수 없습니다."),
+    FILE_NOT_FOUND(404, "FILE_NOT_FOUND", "파일을 찾을 수 없습니다."),
+    IMAGE_FILE_NOT_EXIST(404, "IMAGE_FILE_NOT_EXIST", "이미지 파일이 존재하지 않습니다."),
 
     METHOD_NOT_ALLOWED(405, "METHOD_NOT_ALLOWED", "지원하지 않는 Http Method 입니다."),
     INTERNAL_PROCESSING_ERROR(500, "INTERNAL_PROCESSING_ERROR", "내부 시스템 에러가 발생했습니다.");

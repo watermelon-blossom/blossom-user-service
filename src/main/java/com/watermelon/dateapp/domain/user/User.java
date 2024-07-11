@@ -40,6 +40,8 @@ public class User extends BaseEntity {
 
 	@OneToMany(mappedBy = "user")
 	private List<UserTendency> userTendency = new ArrayList<>();
+	@OneToMany(mappedBy = "user")
+	private List<UserPhoto> userPhoto = new ArrayList<>();
 
 	public static User of(String username, Sex sex, Integer age, Double lastLatitude, Double lastLongitude, String location) {
 		User user = new User();
@@ -61,5 +63,13 @@ public class User extends BaseEntity {
 		this.lastLatitude = lastLatitude;
 		this.lastLongitude = lastLongitude;
 		this.location = location;
+	}
+
+	public List<String> getUserPhotoFileNames() {
+		List<String> photos = new ArrayList<>();
+		for (UserPhoto photo : userPhoto) {
+			photos.add(photo.getStoreFileName());
+		}
+		return photos;
 	}
 }

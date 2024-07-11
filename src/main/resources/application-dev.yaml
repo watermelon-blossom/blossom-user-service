@@ -26,6 +26,13 @@ spring:
       hibernate:
         default_batch_fetch_size: 1000
 
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 25MB
+file:
+  upload-dir: /Users/images/
+
 logging:
   level:
     org:
