@@ -82,10 +82,18 @@ public class UserPhotoService {
     public void deletePhoto(String file) throws IOException {
         Path path = Paths.get(uploadDir, file);
         if (Files.exists(path)) {
-            Files.delete(path);
-            userPhotoRepository.deleteByPhotoFileStoreFileName(file);
+            deleteFileNameWithPath(file, path);
         } else {
             throw new ApplicationException(ErrorType.FILE_NOT_FOUND);
+        }
+    }
+
+    private void deleteFileNameWithPath(String file, Path path) {
+        try {
+            Files.delete(path);
+            userPhotoRepository.deleteByPhotoFileStoreFileName(file);
+        } catch (IOException e) {
+            throw new ApplicationException(ErrorType.INTERNAL_PROCESSING_ERROR);
         }
     }
 
