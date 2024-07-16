@@ -83,7 +83,7 @@ public class UserSearchRepositoryImpl implements UserSearchRepository {
 	}
 
 	private BooleanExpression locationEq(String location) {
-		return location != null ? user.location.eq(location) : null;
+		return location != null ? user.location.locationName.eq(location) : null;
 	}
 
 }

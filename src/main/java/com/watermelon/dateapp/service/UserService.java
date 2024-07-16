@@ -3,8 +3,10 @@ package com.watermelon.dateapp.service;
 import com.watermelon.dateapp.api.dto.UpdateUserRequest;
 import com.watermelon.dateapp.domain.user.Sex;
 import com.watermelon.dateapp.domain.user.User;
+import com.watermelon.dateapp.domain.user.UserLocation;
 import com.watermelon.dateapp.global.error.ApplicationException;
 import com.watermelon.dateapp.global.error.ErrorType;
+import com.watermelon.dateapp.repository.UserLocationRepository;
 import com.watermelon.dateapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,17 +23,22 @@ import com.watermelon.dateapp.api.dto.UserResponse;
 @Transactional(readOnly = true)
 public class UserService {
 	private final UserRepository userRepository;
+    private final UserLocationRepository locationRepository;
 
 	@Transactional
 	public UserResponse saveUser(CreateUserRequest userRequest) {
+        UserLocation location = UserLocation.of(null, userRequest.location());
 		User newUser = User.of(
                 userRequest.userName(),
                 Sex.valueOf(userRequest.sex()),
                 userRequest.age(),
                 userRequest.lastLatitude(),
                 userRequest.lastLongitude(),
-                userRequest.location()
+                location
         );
+        location.setUser(newUser);
+
+        locationRepository.save(location);
 		User savedUser = userRepository.save(newUser);
 		return new UserResponse(savedUser);
 	}
@@ -46,11 +53,13 @@ public class UserService {
     public UserResponse  updateUser(Long id, UpdateUserRequest userRequest) {
         return userRepository.findById(id)
                 .map(user -> {
+                    UserLocation location = user.getLocation();
+                    location.updateLocation(userRequest.location());
                     user.updateUser(
                             userRequest.userName(),
                             userRequest.lastLatitude(),
                             userRequest.lastLongitude(),
-                            userRequest.location()
+                            location
                     );
                     user = userRepository.save(user);
                     return new UserResponse(user);
