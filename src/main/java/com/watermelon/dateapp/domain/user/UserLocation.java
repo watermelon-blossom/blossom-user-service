@@ -4,6 +4,9 @@ import com.watermelon.dateapp.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static jakarta.persistence.GenerationType.*;
 
 @Entity
@@ -14,24 +17,9 @@ public class UserLocation extends BaseEntity {
     @Column(name = "location_id")
     private Long id;
 
-    @OneToOne(mappedBy = "location")
-    private User user;
+    @OneToMany(mappedBy = "location")
+    private List<User> user = new ArrayList<>();
 
-    @Column(name = "location")
+    @Column(name = "location", unique = true)
     private String locationName;
-
-    public static UserLocation of(User user, String location) {
-        UserLocation userLocation = new UserLocation();
-        userLocation.user = user;
-        userLocation.locationName = location;
-        return userLocation;
-    }
-
-    public void updateLocation(String location) {
-        this.locationName = location;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

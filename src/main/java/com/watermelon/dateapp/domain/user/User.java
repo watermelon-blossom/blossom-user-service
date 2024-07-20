@@ -1,5 +1,6 @@
 package com.watermelon.dateapp.domain.user;
 
+import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
@@ -35,7 +36,7 @@ public class User extends BaseEntity {
 	private Double lastLatitude;
 	private Double lastLongitude;
 
-	@OneToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "location_id")
 	private UserLocation location;
 
