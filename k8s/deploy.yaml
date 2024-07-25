@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: backend
-          image: yp6484/watermelon-user-service:ded7c5e
+          image: yp6484/watermelon-user-service:533629e
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
