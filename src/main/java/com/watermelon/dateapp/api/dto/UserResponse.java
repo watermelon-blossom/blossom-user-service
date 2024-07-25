@@ -27,7 +27,7 @@ public record UserResponse(
 				user.getAge(),
 				user.getLastLatitude(),
 				user.getLastLongitude(),
-				user.getLocation(),
+				user.getLocation().getLocationName(),
 				user.getUserPhotoFileNames()
 		);
 	}
