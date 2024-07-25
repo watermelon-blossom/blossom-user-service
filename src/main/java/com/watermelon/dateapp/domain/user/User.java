@@ -1,5 +1,6 @@
 package com.watermelon.dateapp.domain.user;
 
+import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
@@ -35,15 +36,16 @@ public class User extends BaseEntity {
 	private Double lastLatitude;
 	private Double lastLongitude;
 
-	//TODO Location 클래스 혹은 엔티티 만들기
-	private String location;
+	@ManyToOne(fetch = LAZY)
+	@JoinColumn(name = "location_id")
+	private UserLocation location;
 
 	@OneToMany(mappedBy = "user")
 	private List<UserTendency> userTendency = new ArrayList<>();
 	@OneToMany(mappedBy = "user")
 	private List<UserPhoto> userPhoto = new ArrayList<>();
 
-	public static User of(String username, Sex sex, Integer age, Double lastLatitude, Double lastLongitude, String location) {
+	public static User of(String username, Sex sex, Integer age, Double lastLatitude, Double lastLongitude, UserLocation location) {
 		User user = new User();
 		user.userName = new UserName(username);
 		user.sex = sex;
@@ -58,7 +60,7 @@ public class User extends BaseEntity {
 		return userName.getValue();
 	}
 
-	public void updateUser(String userName, Double lastLatitude, Double lastLongitude, String location) {
+	public void updateUser(String userName, Double lastLatitude, Double lastLongitude, UserLocation location) {
 		this.userName = new UserName(userName);
 		this.lastLatitude = lastLatitude;
 		this.lastLongitude = lastLongitude;
