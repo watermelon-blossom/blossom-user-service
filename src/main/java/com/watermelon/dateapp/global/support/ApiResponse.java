@@ -13,17 +13,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApiResponse<T> {
 
-    private ResponseType responseType;
+    private int statusCode;
+    private String code;
     private T data;
     private ErrorMessage error;
     private String debug;
 
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<>(ResponseType.SUCCESS, data, null, null);
+        return new ApiResponse<>(200, null, data, null, null);
     }
 
     public static <T> ApiResponse<T> error(ErrorType errorType, String errorData, String debug) {
         return new ApiResponse<>(
-            ResponseType.ERROR, null, new ErrorMessage(errorType, errorData), debug);
+            errorType.getStatus(), errorType.getCode(), null, new ErrorMessage(errorType, errorData), debug);
     }
 }
