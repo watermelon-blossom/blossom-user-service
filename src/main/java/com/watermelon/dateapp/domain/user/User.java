@@ -33,6 +33,8 @@ public class User extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Sex sex;
 	private Integer age;
+	private String job;
+	private String description;
 	private Double lastLatitude;
 	private Double lastLongitude;
 
