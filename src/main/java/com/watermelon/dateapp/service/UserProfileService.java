@@ -1,11 +1,17 @@
 package com.watermelon.dateapp.service;
 
 import com.watermelon.dateapp.api.dto.UserProfileResponse;
+import com.watermelon.dateapp.domain.likedislike.UserDislike;
+import com.watermelon.dateapp.domain.likedislike.UserLike;
 import com.watermelon.dateapp.domain.likedislike.UserRelationshipStatus;
+import com.watermelon.dateapp.domain.likedislike.UserSuperLike;
 import com.watermelon.dateapp.domain.user.User;
 import com.watermelon.dateapp.global.error.ApplicationException;
 import com.watermelon.dateapp.global.error.ErrorType;
+import com.watermelon.dateapp.repository.UserDislikeRepository;
+import com.watermelon.dateapp.repository.UserLikeRepository;
 import com.watermelon.dateapp.repository.UserRepository;
+import com.watermelon.dateapp.repository.UserSuperLikeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,6 +20,31 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class UserProfileService {
+    private final UserRepository userRepository;
+    private final UserLikeRepository userLikeRepository;
+    private final UserDislikeRepository userDislikeRepository;
+    private final UserSuperLikeRepository userSuperLikeRepository;
+
+
+    public UserRelationshipStatus findUserRelationshipStatus(User fromUser, User targetUser) {
+        UserLike userLike = userLikeRepository.findByFromUserAndToUser(fromUser, targetUser)
+                .orElse(null);
+        if (userLike != null) {
+            return UserRelationshipStatus.LIKE;
+        }
+        UserDislike userDislike = userDislikeRepository.findByFromUserAndToUser(fromUser, targetUser)
+                .orElse(null);
+        if (userDislike != null) {
+            return UserRelationshipStatus.DISLIKE;
+        }
+        UserSuperLike userSuperLike = userSuperLikeRepository.findByFromUserAndToUser(fromUser, targetUser)
+                .orElse(null);
+        if (userSuperLike != null) {
+            return UserRelationshipStatus.SUPERLIKE;
+        }
+        return UserRelationshipStatus.NONE;
+    }
+
     public double calculateDistanceBetweenUsersByHaversine(User fromUser, User toUser) {
         double earthRadius = 6371; // 지구 반지름(km)
 

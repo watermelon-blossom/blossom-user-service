@@ -2,11 +2,15 @@ package com.watermelon.dateapp.domain.likedislike;
 
 import com.watermelon.dateapp.domain.user.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"from_user_id", "to_user_id"})
 })
@@ -16,9 +20,9 @@ public class UserDislike {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "from_user_id")
-    private User fromUserId;
+    private User fromUser;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "to_user_id")
-    private User toUserId;
+    private User toUser;
 }
