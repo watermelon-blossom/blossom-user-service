@@ -80,4 +80,14 @@ public class User extends BaseEntity {
 		}
 		return photos;
 	}
+
+	public List<QuestionInfo> getQuestionInfos() {
+		List<QuestionInfo> questionInfos = new ArrayList<>();
+		for (UserQuestion userQuestion : userQuestion) {
+			String question = userQuestion.getQuestion().getQuestion();
+			String answer = userQuestion.getAnswer();
+            questionInfos.add(new QuestionInfo(question, answer));
+		}
+		return questionInfos;
+	}
 }
