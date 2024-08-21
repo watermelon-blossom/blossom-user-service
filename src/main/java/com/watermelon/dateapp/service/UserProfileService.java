@@ -25,6 +25,18 @@ public class UserProfileService {
     private final UserDislikeRepository userDislikeRepository;
     private final UserSuperLikeRepository userSuperLikeRepository;
 
+    public UserProfileResponse findUserProfile(Long userId, Long targetUserId) {
+        User fromUser = userRepository.findById(userId)
+                .orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
+        User targetUser = userRepository.findById(targetUserId)
+                .orElseThrow(() -> new ApplicationException(ErrorType.USER_NOT_FOUND));
+
+        double distance = calculateDistanceBetweenUsersByHaversine(fromUser, targetUser);
+
+        UserRelationshipStatus userRelationshipStatus = findUserRelationshipStatus(fromUser, targetUser);
+
+        return new UserProfileResponse(targetUser, distance, userRelationshipStatus);
+    }
 
     public UserRelationshipStatus findUserRelationshipStatus(User fromUser, User targetUser) {
         UserLike userLike = userLikeRepository.findByFromUserAndToUser(fromUser, targetUser)
