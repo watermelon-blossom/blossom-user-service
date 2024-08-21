@@ -7,6 +7,7 @@ import static lombok.AccessLevel.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.watermelon.dateapp.api.dto.QuestionInfo;
 import com.watermelon.dateapp.global.common.BaseEntity;
 
 import jakarta.persistence.*;
@@ -42,8 +43,9 @@ public class User extends BaseEntity {
 	@JoinColumn(name = "location_id")
 	private UserLocation location;
 
-	@OneToMany(mappedBy = "user")
-	private List<UserTendency> userTendency = new ArrayList<>();
+	@ManyToOne(fetch = LAZY)
+	private Tendency tendency;
+
 	@OneToMany(mappedBy = "user")
 	private List<UserPhoto> userPhoto = new ArrayList<>();
 	@OneToMany(mappedBy = "user")
