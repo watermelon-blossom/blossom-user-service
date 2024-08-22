@@ -4,6 +4,7 @@ import com.watermelon.dateapp.domain.likedislike.UserRelationshipStatus;
 import com.watermelon.dateapp.domain.user.*;
 
 import java.util.List;
+import java.util.Optional;
 
 public record UserProfileResponse(
     Long id,
@@ -20,17 +21,21 @@ public record UserProfileResponse(
     UserRelationshipStatus relationshipStatus
 ){
     public UserProfileResponse(User user, double distance, UserRelationshipStatus relationshipStatus) {
-        this (
+        this(
                 user.getId(),
                 user.getUserName(),
                 user.getJob(),
-                user.getTendency().getName(),
+                Optional.ofNullable(user.getTendency())
+                        .map(Tendency::getName)
+                        .orElse(null),
                 user.getDescription(),
                 user.getQuestionInfos(),
                 user.getSex(),
                 user.getAge(),
                 distance,
-                user.getLocation().getLocationName(),
+                Optional.ofNullable(user.getLocation())
+                        .map(UserLocation::getLocationName)
+                        .orElse(null),
                 user.getUserPhotoFileNames(),
                 relationshipStatus
         );
