@@ -27,7 +27,7 @@ spring:
       max-request-size: 25MB
 
 file:
-  upload-dir: /Users/images/
+  upload-dir: /app/data
 
 logging:
   level:

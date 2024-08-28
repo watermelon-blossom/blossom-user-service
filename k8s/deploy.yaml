@@ -29,7 +29,13 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: tb
-
+          volumeMounts:
+          - mountPath: /app/data
+            name: app-storage
+      volumes:
+        - name: app-storage
+          persistentVolumeClaim:
+            claimName: longhorn-pvc
 ---
 apiVersion: v1
 kind: Service
