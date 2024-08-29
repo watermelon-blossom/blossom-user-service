@@ -4,7 +4,9 @@ import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+import static lombok.AccessLevel.*;
+
+@NoArgsConstructor(access = PROTECTED)
 @Embeddable
 @Getter
 public class UploadPhoto {
