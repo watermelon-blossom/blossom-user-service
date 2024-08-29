@@ -6,8 +6,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.regex.Pattern;
 
+import static lombok.AccessLevel.*;
+
 @Embeddable
-@NoArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 public class UserName {
     private static String pattern = "^[a-zA-Z가-힣 ,.'-]+$";

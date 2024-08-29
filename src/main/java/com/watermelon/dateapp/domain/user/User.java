@@ -7,6 +7,7 @@ import static lombok.AccessLevel.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.watermelon.dateapp.api.dto.QuestionInfo;
 import com.watermelon.dateapp.global.common.BaseEntity;
 
 import jakarta.persistence.*;
@@ -33,6 +34,8 @@ public class User extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Sex sex;
 	private Integer age;
+	private String job;
+	private String description;
 	private Double lastLatitude;
 	private Double lastLongitude;
 
@@ -40,10 +43,13 @@ public class User extends BaseEntity {
 	@JoinColumn(name = "location_id")
 	private UserLocation location;
 
-	@OneToMany(mappedBy = "user")
-	private List<UserTendency> userTendency = new ArrayList<>();
+	@ManyToOne(fetch = LAZY)
+	private Tendency tendency;
+
 	@OneToMany(mappedBy = "user")
 	private List<UserPhoto> userPhoto = new ArrayList<>();
+	@OneToMany(mappedBy = "user")
+	private List<UserQuestion> userQuestion = new ArrayList<>();
 
 	public static User of(String username, Sex sex, Integer age, Double lastLatitude, Double lastLongitude, UserLocation location) {
 		User user = new User();
@@ -73,5 +79,15 @@ public class User extends BaseEntity {
 			photos.add(photo.getStoreFileName());
 		}
 		return photos;
+	}
+
+	public List<QuestionInfo> getQuestionInfos() {
+		List<QuestionInfo> questionInfos = new ArrayList<>();
+		for (UserQuestion userQuestion : userQuestion) {
+			String question = userQuestion.getQuestion().getQuestion();
+			String answer = userQuestion.getAnswer();
+            questionInfos.add(new QuestionInfo(question, answer));
+		}
+		return questionInfos;
 	}
 }

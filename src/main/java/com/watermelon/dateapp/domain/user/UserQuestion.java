@@ -1,13 +1,16 @@
 package com.watermelon.dateapp.domain.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 
 import static jakarta.persistence.FetchType.*;
-import static jakarta.persistence.GenerationType.IDENTITY;
+import static jakarta.persistence.GenerationType.*;
 
 @Entity
-@Table(name = "user_tendency")
-public class UserTendency {
+@Table(name = "user_question")
+@Getter
+public class UserQuestion {
     @Id @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
@@ -16,6 +19,10 @@ public class UserTendency {
     private User user;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "tendency_id")
-    private Tendency tendency;
+    @JoinColumn(name = "question_id")
+    @NotNull
+    private Question question;
+
+    @NotNull
+    private String answer;
 }

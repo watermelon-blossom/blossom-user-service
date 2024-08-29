@@ -6,16 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.IDENTITY;
+import static jakarta.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
 @Entity
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-@Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"from_user_id", "to_user_id"})
-})
-public class UserDislike {
+@Table(name = "user_superlike")
+public class UserSuperLike {
     @Id @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
