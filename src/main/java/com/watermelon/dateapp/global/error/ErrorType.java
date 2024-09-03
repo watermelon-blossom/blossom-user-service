@@ -9,6 +9,7 @@ public enum ErrorType {
     BAD_REQUEST(400, "400-01", "잘못된 요청입니다."),
     INVALID_REQUEST_PARAMETER(400, "400-02", "잘못된 요청 파라미터 입니다."),
     UNAUTHENTICATED(401, "401-01", "인증되지 않은 사용자입니다."),
+    INVALID_TOKEN(401, "401-02", "유효하지 않은 토큰입니다."),
     UNAUTHORIZED(403, "403-01", "권한이 없는 사용자입니다."),
 
     USER_NOT_FOUND(404, "404-01", "사용자를 찾을 수 없습니다."),
