@@ -7,18 +7,19 @@ spring:
   # Postgresql Config
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/blossom?currentSchema=user-service
+    url: jdbc:postgresql://localhost:5432/blossom
     username: postgres
     password:
 
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       show_sql: true
       format_sql: true
     properties:
       hibernate:
+        default_schema: user-service
         default_batch_fetch_size: 1000
 
   servlet:

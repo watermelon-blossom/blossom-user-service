@@ -24,6 +24,7 @@ spring:
       format_sql: true
     properties:
       hibernate:
+        default_schema: user-service
         default_batch_fetch_size: 1000
 
   servlet:

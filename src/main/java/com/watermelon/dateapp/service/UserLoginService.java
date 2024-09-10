@@ -1,5 +1,13 @@
 package com.watermelon.dateapp.service;
 
+import com.watermelon.dateapp.domain.user.CustomUserDetails;
+import com.watermelon.dateapp.global.error.ApplicationException;
+import com.watermelon.dateapp.global.error.ErrorType;
+import com.watermelon.dateapp.repository.UserRepository;
+import com.watermelon.dateapp.security.JwtToken;
+import com.watermelon.dateapp.security.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -10,16 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.watermelon.dateapp.domain.user.CustomUserDetails;
-import com.watermelon.dateapp.global.error.ApplicationException;
-import com.watermelon.dateapp.global.error.ErrorType;
-import com.watermelon.dateapp.repository.UserRepository;
-import com.watermelon.dateapp.security.JwtToken;
-import com.watermelon.dateapp.security.JwtTokenProvider;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -29,6 +27,7 @@ public class UserLoginService implements UserDetailsService {
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final BCryptPasswordEncoder passwordEncoder;
+	private final UserService userService;
 
 	@Transactional
 	public JwtToken login(String loginId, String loginPassword) {
@@ -44,7 +43,7 @@ public class UserLoginService implements UserDetailsService {
 
 		// 3. 인증 정보를 기반으로 JWT 토큰 생성
 
-		return jwtTokenProvider.generateToken(authentication);
+		return jwtTokenProvider.generateToken(authentication, userService);
 	}
 
 	@Override
