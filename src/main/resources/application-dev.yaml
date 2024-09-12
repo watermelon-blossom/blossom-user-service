@@ -34,6 +34,10 @@ spring:
 file:
   upload-dir: /Users/images/
 
+jwt:
+  secret: ENC(y4/zbLTse8Q6G3r3ZPHrUy1QbL25LuyFkcc7DVNPbCD/PszrpY9NhbAVst1eM+FapWQX6o2/LNCtsXYpVmHb9G0Cc4LGRafDgHip/68wEl9usM1tcB7dqL0Wb0b5/Mnc39KCHCptlELxSdkyxChblA==)
+  expiration_date: 8640000
+
 logging:
   level:
     org:

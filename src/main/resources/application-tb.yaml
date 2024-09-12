@@ -30,6 +30,10 @@ spring:
 file:
   upload-dir: /app/data/
 
+jwt:
+  secret: ${JWT_SECRET}
+  expiration_date: 8640000
+
 logging:
   level:
     org:

@@ -4,14 +4,14 @@ import com.watermelon.dateapp.domain.likedislike.UserDislike;
 import com.watermelon.dateapp.domain.likedislike.UserLike;
 import com.watermelon.dateapp.domain.likedislike.UserRelationshipStatus;
 import com.watermelon.dateapp.domain.likedislike.UserSuperLike;
-import com.watermelon.dateapp.domain.user.*;
+import com.watermelon.dateapp.domain.user.User;
 import com.watermelon.dateapp.repository.UserDislikeRepository;
 import com.watermelon.dateapp.repository.UserLikeRepository;
 import com.watermelon.dateapp.repository.UserSuperLikeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -37,9 +37,9 @@ class UserProfileServiceTest {
     @BeforeEach
     void setUp() {
         // 가산디지털단지역
-        fromUser = new User(1L, null, null, null, null, null, 37.48150595804579, 126.88261084079251, null, null, null, null);
+        fromUser = new User(1L, null, null, null, null, null, null, 37.48150595804579, 126.88261084079251, null, null, null, null);
         // 광운대역
-        toUser = new User(1L, null, null, null, null, null, 37.62379996979561, 127.06169909443831, null, null, null, null);
+        toUser = new User(1L, null, null, null, null, null, null, 37.62379996979561, 127.06169909443831, null, null, null, null);
     }
 
 
