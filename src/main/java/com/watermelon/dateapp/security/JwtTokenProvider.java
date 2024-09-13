@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
     private final SecretKey key;
+    @Value("${jwt.expiration_date}")
+    private long jwtExpirationInMs;
 
     // application.yml에서 secret 값 가져와서 key에 저장
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
@@ -41,7 +43,7 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
 
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 86400000);
+        Date accessTokenExpiresIn = new Date(now + jwtExpirationInMs);
         String accessToken = Jwts.builder()
                 .issuedAt(new Date())
                 .issuer("highestbright98@naver.com")
@@ -53,8 +55,9 @@ public class JwtTokenProvider {
                 .compact();
 
         // Refresh Token 생성
+        int twelveHour = 43200000;
         String refreshToken = Jwts.builder()
-                .expiration(new Date(now + 96400000))   //Access Token보다 약간 긴 토큰
+                .expiration(new Date(now + jwtExpirationInMs + twelveHour))   //Access Token보다 12시간 긴 토큰
                 .signWith(key)
                 .compact();
 
