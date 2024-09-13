@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		Authentication authResult) throws IOException, ServletException {
 		log.info("Authentication Filter successful Auth");
 		JwtToken jwtToken = jwtTokenProvider.generateToken(authResult, userService);
-		response.addHeader("Authorization", jwtToken.accessToken());
+		response.addHeader("Authorization", "Bearer " + jwtToken.accessToken());
 	}
 
 	@Override
