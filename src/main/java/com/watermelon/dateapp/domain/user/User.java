@@ -10,7 +10,19 @@ import java.util.List;
 import com.watermelon.dateapp.api.dto.QuestionInfo;
 import com.watermelon.dateapp.global.common.BaseEntity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,20 +34,31 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
 @Builder
-public class User extends BaseEntity {
+public class User extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "user_id")
 	Long id;
 
 	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride(name = "id", column = @Column(name = "user_login_id")),
+		@AttributeOverride(name = "password", column = @Column(name = "user_login_password")),
+		@AttributeOverride(name = "roles", column = @Column(name = "user_roles"))
+	})
+	private LoginInfo loginInfo;
+
+	@Embedded
 	@AttributeOverride(name = "value", column = @Column(name = "name", nullable = false))
 	private UserName userName;
+
 	@Enumerated(EnumType.STRING)
 	private Sex sex;
 	private Integer age;
 	private String job;
 	private String description;
+
+	//TODO Extract as GeoInfo, add Domain Business logic
 	private Double lastLatitude;
 	private Double lastLongitude;
 
@@ -51,8 +74,17 @@ public class User extends BaseEntity {
 	@OneToMany(mappedBy = "user")
 	private List<UserQuestion> userQuestion = new ArrayList<>();
 
-	public static User of(String username, Sex sex, Integer age, Double lastLatitude, Double lastLongitude, UserLocation location) {
+	public static User of(
+		String userId,
+		String userPassword,
+		String username,
+		Sex sex,
+		Integer age,
+		Double lastLatitude,
+		Double lastLongitude,
+		UserLocation location) {
 		User user = new User();
+		user.loginInfo = LoginInfo.of(userId, userPassword);
 		user.userName = new UserName(username);
 		user.sex = sex;
 		user.age = age;

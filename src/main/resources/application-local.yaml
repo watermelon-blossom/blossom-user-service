@@ -7,18 +7,19 @@ spring:
   # Postgresql Config
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/blossom?currentSchema=user-service&rewriteBatchedStatements=true
-    username: user
-    password: password
+    url: jdbc:postgresql://localhost:5432/blossom
+    username: postgres
+    password:
 
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       show_sql: true
       format_sql: true
     properties:
       hibernate:
+        default_schema: user-service
         default_batch_fetch_size: 1000
 
   servlet:
@@ -27,7 +28,11 @@ spring:
       max-request-size: 25MB
 
 file:
-  upload-dir: /Users/images/
+  upload-dir: ~/blossom/images/
+
+jwt:
+  secret: de5adebf66b7b94b007ca46403cf797c92eb63d9c55e70239cf927dfaac15211
+  expiration_date: 8640000
 
 logging:
   level:
